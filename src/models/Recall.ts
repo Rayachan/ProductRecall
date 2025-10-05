@@ -65,6 +65,6 @@ const RecallSchema = new Schema<RecallDocument>({
   totalQuantityDistributed: { type: Number, required: true, min: 0 },
   totalQuantityReturned: { type: Number, required: true, min: 0, default: 0 },
   auditTrail: { type: [AuditEntrySchema], default: [] },
-}, { timestamps: true });
+}, { timestamps: true, collection: 'product' });
 
-export const RecallModel = mongoose.model<RecallDocument>('Recall', RecallSchema);
+export const RecallModel = mongoose.model<RecallDocument>('Recall', RecallSchema, 'product');
