@@ -12,6 +12,12 @@ export function getKafka(): Kafka {
     clientId: env.kafkaClientId,
     brokers: env.kafkaBrokers,
     logLevel: logLevel.INFO,
+    ssl: env.kafkaSsl ? true : undefined,
+    sasl: env.kafkaSsl && env.kafkaSaslUsername && env.kafkaSaslPassword ? {
+      mechanism: env.kafkaSaslMechanism,
+      username: env.kafkaSaslUsername,
+      password: env.kafkaSaslPassword,
+    } : undefined,
   };
   kafkaSingleton = new Kafka(config);
   return kafkaSingleton;

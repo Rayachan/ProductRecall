@@ -16,4 +16,8 @@ export const env = {
   kafkaClientId: getEnv('KAFKA_CLIENT_ID', 'guardian-service'),
   kafkaEnabled: (process.env.KAFKA_ENABLED ?? 'true').toLowerCase() !== 'false',
   mongoInMemory: (process.env.MONGO_INMEMORY ?? 'false').toLowerCase() === 'true',
+  kafkaSsl: (process.env.KAFKA_SSL ?? 'false').toLowerCase() === 'true',
+  kafkaSaslMechanism: (process.env.KAFKA_SASL_MECHANISM ?? 'plain') as 'plain' | 'scram-sha-256' | 'scram-sha-512' | 'oauthbearer',
+  kafkaSaslUsername: process.env.KAFKA_SASL_USERNAME,
+  kafkaSaslPassword: process.env.KAFKA_SASL_PASSWORD,
 };
