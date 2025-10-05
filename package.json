@@ -1,0 +1,32 @@
+{
+  "name": "project-guardian",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FreshFare Foods - Project Guardian backend (recall lifecycle with MongoDB and Kafka)",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "smoke": "cross-env KAFKA_ENABLED=false MONGO_INMEMORY=true ts-node src/test/smoke.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "http-errors": "^2.0.0",
+    "kafkajs": "^2.2.4",
+    "mongoose": "^8.6.0",
+    "ulid": "^2.3.0",
+    "zod": "^3.23.8",
+    "mongodb-memory-server": "^10.1.4",
+    "cross-env": "^7.0.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/http-errors": "^2.0.4",
+    "@types/node": "^22.7.5",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.6.3"
+  }
+}
