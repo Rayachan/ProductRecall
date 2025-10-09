@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "Guardian API",
+    "_postman_id": "f2f1bde3-bc53-4d4a-9d2a-6f3a8f1e2c87",
+    "description": "Collection for Guardian Express API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "Recalls - List",
+      "request": {
+        "method": "GET",
+        "header": [ {"key":"Content-Type","value":"application/json"} ],
+        "url": {
+          "raw": "{{base_url}}/api/recalls",
+          "host": ["{{base_url}}"],
+          "path": ["api","recalls"]
+        }
+      }
+    },
+    {
+      "name": "Recalls - Get by ID",
+      "request": {
+        "method": "GET",
+        "header": [ {"key":"Content-Type","value":"application/json"} ],
+        "url": {
+          "raw": "{{base_url}}/api/recalls/{{recall_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api","recalls","{{recall_id}}"]
+        }
+      }
+    },
+    {
+      "name": "Recalls - Initiate",
+      "request": {
+        "method": "POST",
+        "header": [ {"key":"Content-Type","value":"application/json"} ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productName\": \"Organic Baby Spinach\",\n  \"batchId\": \"FS-2025-Q3-B7\",\n  \"reason\": \"Potential contamination\",\n  \"initiatedBy\": \"qc_manager\",\n  \"distributors\": [\n    { \"distributorId\": \"D1\", \"distributorName\": \"East Dist\", \"quantityDistributed\": 50 },\n    { \"distributorId\": \"D2\", \"distributorName\": \"West Dist\", \"quantityDistributed\": 50 }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/recalls/initiate",
+          "host": ["{{base_url}}"],
+          "path": ["api","recalls","initiate"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 201', function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "try {",
+              "  var data = pm.response.json();",
+              "  pm.environment.set('recall_id', data.recallId || data.id);",
+              "} catch (e) {}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Recalls - Mark Notifications Sent",
+      "request": {
+        "method": "POST",
+        "header": [ {"key":"Content-Type","value":"application/json"} ],
+        "url": {
+          "raw": "{{base_url}}/api/recalls/{{recall_id}}/notifications/sent",
+          "host": ["{{base_url}}"],
+          "path": ["api","recalls","{{recall_id}}","notifications","sent"]
+        }
+      }
+    },
+    {
+      "name": "Recalls - Acknowledge",
+      "request": {
+        "method": "POST",
+        "header": [ {"key":"Content-Type","value":"application/json"} ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"distributorId\": \"D1\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/recalls/{{recall_id}}/acknowledge",
+          "host": ["{{base_url}}"],
+          "path": ["api","recalls","{{recall_id}}","acknowledge"]
+        }
+      }
+    },
+    {
+      "name": "Recalls - Update Returns",
+      "request": {
+        "method": "POST",
+        "header": [ {"key":"Content-Type","value":"application/json"} ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"distributorId\": \"D1\",\n  \"quantityReturned\": 50\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/recalls/{{recall_id}}/returns",
+          "host": ["{{base_url}}"],
+          "path": ["api","recalls","{{recall_id}}","returns"]
+        }
+      }
+    },
+    {
+      "name": "Recalls - Close",
+      "request": {
+        "method": "POST",
+        "header": [ {"key":"Content-Type","value":"application/json"} ],
+        "url": {
+          "raw": "{{base_url}}/api/recalls/{{recall_id}}/close",
+          "host": ["{{base_url}}"],
+          "path": ["api","recalls","{{recall_id}}","close"]
+        }
+      }
+    }
+  ]
+}
