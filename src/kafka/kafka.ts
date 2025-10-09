@@ -1,4 +1,4 @@
-import { Kafka, KafkaConfig, logLevel } from 'kafkajs';
+import { Kafka, KafkaConfig, logLevel, SASLOptions } from 'kafkajs';
 import { env } from '../config/env';
 
 let kafkaSingleton: Kafka | null = null;
@@ -13,11 +13,13 @@ export function getKafka(): Kafka {
     brokers: env.kafkaBrokers,
     logLevel: logLevel.INFO,
     ssl: env.kafkaSsl ? true : undefined,
-    sasl: env.kafkaSsl && env.kafkaSaslUsername && env.kafkaSaslPassword ? {
-      mechanism: env.kafkaSaslMechanism,
-      username: env.kafkaSaslUsername,
-      password: env.kafkaSaslPassword,
-    } : undefined,
+    sasl: (env.kafkaSsl && env.kafkaSaslUsername && env.kafkaSaslPassword)
+      ? ({
+          mechanism: env.kafkaSaslMechanism,
+          username: env.kafkaSaslUsername as string,
+          password: env.kafkaSaslPassword as string,
+        } as SASLOptions)
+      : undefined,
   };
   kafkaSingleton = new Kafka(config);
   return kafkaSingleton;

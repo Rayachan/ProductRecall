@@ -8,8 +8,10 @@ import { startConsumers } from './kafka/consumers';
 
 async function bootstrap() {
   await connectMongo();
-  await getProducer();
-  await startConsumers();
+  if (env.kafkaEnabled) {
+    await getProducer();
+    await startConsumers();
+  }
 
   const app = express();
   app.use(express.json());
